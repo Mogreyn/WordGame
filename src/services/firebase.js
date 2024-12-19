@@ -1,9 +1,7 @@
-// src/services/firebase.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 
-// Firebase конфигурация
 const firebaseConfig = {
   apiKey: "AIzaSyAg-tIQkIvAeoWYmy2C79KO5jLVvB2aiDE",
   authDomain: "wordswipe-c9d98.firebaseapp.com",
@@ -14,16 +12,12 @@ const firebaseConfig = {
   measurementId: "G-JLE3D3NHRT",
 };
 
-// Инициализация Firebase
 export const app = initializeApp(firebaseConfig);
 
-// Инициализация Auth
 export const auth = getAuth(app);
 
-// Инициализация Firestore
 export const db = getFirestore(app);
 
-// Функция для получения слов из Firestore
 export const getWords = async () => {
   try {
     const wordsCollection = collection(db, "words");

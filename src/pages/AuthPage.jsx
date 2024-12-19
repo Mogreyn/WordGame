@@ -9,7 +9,7 @@ import { Button, TextField, Typography, Box, Alert } from "@mui/material";
 function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); // Для отображения ошибок
+  const [error, setError] = useState(""); 
 
   const handleRegister = () => {
     if (!email) {
@@ -27,7 +27,7 @@ function AuthPage() {
         console.log("Пользователь зарегистрирован:", userCredential);
         setEmail("");
         setPassword("");
-        setError(""); // Сброс ошибки при успешной регистрации
+        setError(""); 
       })
       .catch((error) => {
         setError("Ошибка регистрации: " + error.message);
@@ -50,10 +50,10 @@ function AuthPage() {
         console.log("Вход выполнен:", userCredential);
         setEmail("");
         setPassword("");
-        setError(""); // Сброс ошибки при успешном входе
+        setError(""); 
       })
       .catch((error) => {
-        console.error("Ошибка входа:", error); // Логирование ошибки для диагностики
+        console.error("Ошибка входа:", error); 
         switch (error.code) {
           case "auth/user-not-found":
             setError("Пользователь с таким email не найден.");
@@ -83,7 +83,6 @@ function AuthPage() {
           {error}
         </Alert>
       )}{" "}
-      {/* Отображение ошибки */}
       <TextField
         label="Email"
         placeholder="example@domain.com"

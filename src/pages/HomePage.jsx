@@ -9,25 +9,24 @@ import {
   Box,
 } from "@mui/material";
 import { getWords } from "../services/firebase";
-import "./homePage.css"; // Подключаем CSS файл
+import "./homePage.css"; 
 
-// Создаем тему
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#1976d2", // Синий цвет для первичных элементов
+      main: "#1976d2", 
     },
     secondary: {
-      main: "#ff4081", // Розовый цвет для вторичных элементов
+      main: "#ff4081",
     },
     error: {
-      main: "#d32f2f", // Красный цвет для ошибок
+      main: "#d32f2f", 
     },
     success: {
-      main: "#388e3c", // Зеленый цвет для успеха
+      main: "#388e3c", 
     },
     background: {
-      default: "#f4f4f9", // Основной цвет фона
+      default: "#f4f4f9", 
     },
   },
   typography: {
@@ -40,14 +39,13 @@ const theme = createTheme({
       fontSize: "1rem",
     },
   },
-  spacing: 8, // Стандартный интервал
+  spacing: 8, 
 });
 
 const HomePage = () => {
   const [words, setWords] = useState([]);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
-  // Загрузка слов из Firebase
   useEffect(() => {
     const fetchWords = async () => {
       const wordsList = await getWords();
@@ -86,7 +84,6 @@ const HomePage = () => {
         }}
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          {/* Кнопка "Предыдущее слово" слева */}
           <Button
             onClick={prevWord}
             variant="contained"
@@ -98,7 +95,6 @@ const HomePage = () => {
             Предыдущее
           </Button>
 
-          {/* Карточка со словом */}
           <Card
             sx={{
               width: "auto",
@@ -127,7 +123,6 @@ const HomePage = () => {
             </CardContent>
           </Card>
 
-          {/* Кнопка "Следующее слово" справа */}
           <Button
             onClick={nextWord}
             variant="contained"

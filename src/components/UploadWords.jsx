@@ -1,9 +1,7 @@
-// src/components/UploadWords.js
 import React from "react";
-import { db } from "../services/firebase"; // Импортируем Firestore
+import { db } from "../services/firebase"; 
 import { collection, addDoc } from "firebase/firestore";
 
-// Массив слов для загрузки
 const words = [
   { "english": "honest", "russian": "честный" },
   { "english": "dishonest", "russian": "нечестный" },
@@ -51,12 +49,10 @@ const words = [
 
 
 const UploadWords = () => {
-  // Функция для загрузки слов в Firestore
   const uploadWords = async () => {
     try {
       const wordsCollection = collection(db, "words");
 
-      // Перебираем массив слов и добавляем их в коллекцию
       for (const word of words) {
         await addDoc(wordsCollection, word);
       }
