@@ -10,6 +10,9 @@ import {
 } from "@mui/material";
 import { getWords } from "../services/firebase";
 import "./homePage.css"; 
+import Header from "../components/Header";
+import AuthPage from "./AuthPage";
+
 
 const theme = createTheme({
   palette: {
@@ -73,6 +76,7 @@ const HomePage = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <Header/>
       <div
         className="container"
         style={{
