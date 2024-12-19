@@ -1,0 +1,65 @@
+/* homePage.css */
+
+/* Стили для контейнера */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #5e5ea0; /* Цвет фона, который можно изменить в теме */
+  padding: 16px;
+}
+
+/* Стиль для карточки */
+.card {
+  width: 100%;
+  max-width: 345px; /* Максимальная ширина для карточки */
+  background-color: #1976d2; /* Этот цвет можно задать через тему */
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+/* Стиль для текста внутри карточки */
+.card h2 {
+  font-size: 5rem;
+  color: white;
+  margin: 0;
+}
+
+/* Стиль для описания */
+.card p {
+  font-size: 2rem;
+  color: white;
+}
+
+/* Стиль для кнопки */
+button {
+  background-color: #ff4081; /* Вторичный цвет */
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #4e494a; /* Изменение цвета на наведение */
+}
+
+/* Стиль для overlay */
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 16px;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: bold;
+}
