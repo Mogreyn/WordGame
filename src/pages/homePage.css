@@ -4,18 +4,8 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #5e5ea0; 
+  background-color: #5e5ea0;
   padding: 16px;
-}
-
-.card {
-  width: 100%;
-  max-width: 345px; 
-  background-color: #1976d2; 
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease;
 }
 
 .card h2 {
@@ -29,18 +19,8 @@
   color: white;
 }
 
-button {
-  background-color: #ff4081; 
-  color: white;
-  padding: 8px 16px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
 button:hover {
-  background-color: #4e494a; 
+  background-color: #4e494a;
 }
 
 .overlay {

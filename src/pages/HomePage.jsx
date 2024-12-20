@@ -9,27 +9,24 @@ import {
   Box,
 } from "@mui/material";
 import { getWords } from "../services/firebase";
-import "./homePage.css"; 
 import Header from "../components/Header";
-import AuthPage from "./AuthPage";
-
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#1976d2", 
+      main: "#1976d2",
     },
     secondary: {
       main: "#ff4081",
     },
     error: {
-      main: "#d32f2f", 
+      main: "#d32f2f",
     },
     success: {
-      main: "#388e3c", 
+      main: "#388e3c",
     },
     background: {
-      default: "#f4f4f9", 
+      default: "#f4f4f9",
     },
   },
   typography: {
@@ -42,67 +39,76 @@ const theme = createTheme({
       fontSize: "1rem",
     },
   },
-  spacing: 8, 
+  spacing: 8,
 });
 
 const HomePage = () => {
   const [words, setWords] = useState([]);
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [randomWord, setRandomWord] = useState(null);
 
   useEffect(() => {
     const fetchWords = async () => {
       const wordsList = await getWords();
       setWords(wordsList);
+      generateRandomWord(wordsList);
     };
 
     fetchWords();
   }, []);
 
+  const generateRandomWord = (wordsList) => {
+    const randomIndex = Math.floor(Math.random() * wordsList.length);
+    setRandomWord(wordsList[randomIndex]);
+  };
+
   if (words.length === 0) {
     return <div>Загрузка...</div>;
   }
 
-  const nextWord = () => {
-    setCurrentWordIndex((prevState) => (prevState + 1) % words.length);
-  };
-
-  const prevWord = () => {
-    setCurrentWordIndex(
-      (prevState) => (prevState - 1 + words.length) % words.length
-    );
-  };
-
-  const currentWord = words[currentWordIndex];
-
   return (
     <ThemeProvider theme={theme}>
-      <Header/>
+      <Header />
       <div
         className="container"
         style={{
-          padding: theme.spacing(2),
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
+          padding: "16px",
+          backgroundColor: "#5e5ea0",
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           <Button
-            onClick={prevWord}
+            onClick={() => generateRandomWord(words)}
             variant="contained"
             color="primary"
             sx={{
-              marginRight: theme.spacing(2),
+              marginBottom: 2,
+              padding: "8px 16px",
+              backgroundColor: "#ff4081",
+              color: "white",
+              borderRadius: 4,
+              "&:hover": {
+                backgroundColor: "#4e494a",
+              },
             }}
           >
-            Предыдущее
+            Сгенерировать слово
           </Button>
 
           <Card
             sx={{
               width: "auto",
-              minWidth:400,
+              minWidth: 400,
               height: 250,
               backgroundColor: theme.palette.primary.main,
               boxShadow: 3,
@@ -110,33 +116,22 @@ const HomePage = () => {
               justifyContent: "center",
               alignItems: "center",
               textAlign: "center",
+              borderRadius: 8,
+              transition: "background-color 0.3s ease",
             }}
           >
             <CardContent>
               <Typography
                 variant="h2"
-                fontSize="8rem"
-                component="div"
-                color="white"
+                sx={{ fontSize: "5rem", color: "white" }}
               >
-                {currentWord.english}
+                {randomWord ? randomWord.english : "Загрузка..."}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {currentWord.russian}
+                {randomWord ? randomWord.russian : ""}
               </Typography>
             </CardContent>
           </Card>
-
-          <Button
-            onClick={nextWord}
-            variant="contained"
-            color="secondary"
-            sx={{
-              marginLeft: theme.spacing(2),
-            }}
-          >
-            Следующее
-          </Button>
         </Box>
       </div>
     </ThemeProvider>
