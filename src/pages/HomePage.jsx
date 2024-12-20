@@ -131,7 +131,25 @@ const HomePage = () => {
                 {randomWord ? randomWord.russian : ""}
               </Typography>
             </CardContent>
+            
           </Card>
+          <Button
+            onClick={() => generateRandomWord(words)}
+            variant="contained"
+            color="primary"
+            sx={{
+              marginTop: 2,
+              padding: "8px 16px",
+              backgroundColor: "#ff4081",
+              color: "white",
+              borderRadius: 4,
+              "&:hover": {
+                backgroundColor: "#4e494a",
+              },
+            }}
+          >
+            Сгенерировать слово
+          </Button>
         </Box>
       </div>
     </ThemeProvider>

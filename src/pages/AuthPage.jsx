@@ -10,9 +10,9 @@ import { Button, TextField, Typography, Box, Alert } from "@mui/material";
 function AuthPage({ onClose, onUserLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState(""); // Для регистрации
+  const [name, setName] = useState(""); 
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState(0); // Состояние для вкладок (0 - Вход, 1 - Регистрация)
+  const [activeTab, setActiveTab] = useState(0); 
 
   const handleRegister = () => {
     if (!email) {
@@ -45,13 +45,12 @@ function AuthPage({ onClose, onUserLogin }) {
             console.error("Ошибка при обновлении имени пользователя:", error);
           });
 
-        // Передаем имя в родительский компонент
         onUserLogin(name);
         setEmail("");
         setPassword("");
-        setName(""); // Очистить поле имени
+        setName(""); 
         setError("");
-        setActiveTab(0); // Переключаем на вкладку "Вход"
+        setActiveTab(0); 
       })
       .catch((error) => {
         setError("Ошибка регистрации: " + error.message);
@@ -73,7 +72,7 @@ function AuthPage({ onClose, onUserLogin }) {
       .then((userCredential) => {
         console.log("Вход выполнен:", userCredential);
         const user = userCredential.user;
-        onUserLogin(user.displayName); // Передаем имя пользователя после входа
+        onUserLogin(user.displayName); 
         setEmail("");
         setPassword("");
         setError("");
