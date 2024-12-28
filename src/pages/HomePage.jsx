@@ -11,7 +11,7 @@ import {
 import { getWords } from "../services/firebase";
 import Header from "../components/Header/Header";
 import CorrectWords from "../components/CorrectWords/correctWords";
-import  WrongWords  from "../components/WrongWords/wrongWords";
+import WrongWords from "../components/WrongWords/wrongWords";
 
 const theme = createTheme({
   palette: {
@@ -69,14 +69,14 @@ const HomePage = () => {
     if (randomWord && !correctWords.includes(randomWord.english)) {
       setCorrectWords((prevWords) => [...prevWords, randomWord.english]);
     }
-    generateRandomWord(words); 
+    generateRandomWord(words);
   };
 
   const handleDontKnowWord = () => {
     if (randomWord && !wrongWords.includes(randomWord.english)) {
       setWrongWords((prevWords) => [...prevWords, randomWord.english]);
     }
-    generateRandomWord(words); 
+    generateRandomWord(words);
   };
 
   if (words.length === 0) {

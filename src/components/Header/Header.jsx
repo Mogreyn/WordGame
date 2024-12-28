@@ -38,16 +38,23 @@ const Header = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <img src={logo} alt="Logo" />
-        <Typography variant="h6">{userName ? `Welcome, ${userName}` : "Welcome"}</Typography>
+      <Box
+        backgroundColor="#1976d2"
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <img src={logo} alt="Logo" style={{ width: "50px", height: "auto" }} />
+        <Typography variant="h6">
+          {userName ? `Добро пожаловать, ${userName}` : "Добро пожаловать"}
+        </Typography>
         <Button variant="contained" color="primary" onClick={handleOpenAuth}>
           {userName ? "Logout" : "Login"}
         </Button>
       </Box>
       <Dialog open={openAuth} onClose={handleCloseAuth}>
         <FocusLock>
-          <DialogTitle>{userName ? "Logout" : "Login"}</DialogTitle>
+          <DialogTitle>{userName ? "Logout" : "Вход/Регистрация"}</DialogTitle>
           <DialogContent>
             <AuthPage setUserName={setUserName} onClose={handleCloseAuth} />
           </DialogContent>
