@@ -10,9 +10,9 @@ import { Button, TextField, Typography, Box, Alert } from "@mui/material";
 function AuthPage({ onClose, onUserLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState(""); 
+  const [name, setName] = useState("");
   const [error, setError] = useState("");
-  const [activeTab, setActiveTab] = useState(0); 
+  const [activeTab, setActiveTab] = useState(0);
 
   const handleRegister = () => {
     if (!email) {
@@ -48,9 +48,9 @@ function AuthPage({ onClose, onUserLogin }) {
         onUserLogin(name);
         setEmail("");
         setPassword("");
-        setName(""); 
+        setName("");
         setError("");
-        setActiveTab(0); 
+        setActiveTab(0);
       })
       .catch((error) => {
         setError("Ошибка регистрации: " + error.message);
@@ -72,7 +72,7 @@ function AuthPage({ onClose, onUserLogin }) {
       .then((userCredential) => {
         console.log("Вход выполнен:", userCredential);
         const user = userCredential.user;
-        onUserLogin(user.displayName); 
+        onUserLogin(user.displayName);
         setEmail("");
         setPassword("");
         setError("");
@@ -88,7 +88,7 @@ function AuthPage({ onClose, onUserLogin }) {
             setError("Неверный пароль.");
             break;
           case "auth/invalid-email":
-            setError("Некорректный формат email.");
+            setError("Некорректный формат email .");
             break;
           case "auth/invalid-credential":
             setError("Ошибка входа: неверные учетные данные.");

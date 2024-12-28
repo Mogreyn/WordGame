@@ -9,7 +9,9 @@ import {
   Box,
 } from "@mui/material";
 import { getWords } from "../services/firebase";
-import Header from "../components/Header";
+import Header from "../components/Header/Header";
+import CorrectWords from "../components/CorrectWords/correctWords";
+import  WrongWords  from "../components/WrongWords/wrongWords";
 
 const theme = createTheme({
   palette: {
@@ -45,6 +47,8 @@ const theme = createTheme({
 const HomePage = () => {
   const [words, setWords] = useState([]);
   const [randomWord, setRandomWord] = useState(null);
+  const [correctWords, setCorrectWords] = useState([]);
+  const [wrongWords, setWrongWords] = useState([]);
 
   useEffect(() => {
     const fetchWords = async () => {
@@ -61,6 +65,20 @@ const HomePage = () => {
     setRandomWord(wordsList[randomIndex]);
   };
 
+  const handleKnowWord = () => {
+    if (randomWord && !correctWords.includes(randomWord.english)) {
+      setCorrectWords((prevWords) => [...prevWords, randomWord.english]);
+    }
+    generateRandomWord(words); 
+  };
+
+  const handleDontKnowWord = () => {
+    if (randomWord && !wrongWords.includes(randomWord.english)) {
+      setWrongWords((prevWords) => [...prevWords, randomWord.english]);
+    }
+    generateRandomWord(words); 
+  };
+
   if (words.length === 0) {
     return <div>Загрузка...</div>;
   }
@@ -72,13 +90,17 @@ const HomePage = () => {
         className="container"
         style={{
           display: "flex",
-          justifyContent: "center",
+          flexDirection: "column",
+          justifyContent: "flex-start",
           alignItems: "center",
           height: "100vh",
           padding: "16px",
           backgroundColor: "#5e5ea0",
         }}
       >
+        {/* Компонент с известными словами (сейчас только вверху) */}
+        <CorrectWords correctWords={correctWords} />
+
         <Box
           sx={{
             display: "flex",
@@ -87,8 +109,9 @@ const HomePage = () => {
             justifyContent: "center",
           }}
         >
+          {/* Кнопка "Знаю слово" */}
           <Button
-            onClick={() => generateRandomWord(words)}
+            onClick={handleKnowWord}
             variant="contained"
             color="primary"
             sx={{
@@ -102,9 +125,10 @@ const HomePage = () => {
               },
             }}
           >
-            Сгенерировать слово
+            Знаю слово
           </Button>
 
+          {/* Карточка с рандомным словом */}
           <Card
             sx={{
               width: "auto",
@@ -118,6 +142,7 @@ const HomePage = () => {
               textAlign: "center",
               borderRadius: 8,
               transition: "background-color 0.3s ease",
+              marginBottom: "20px",
             }}
           >
             <CardContent>
@@ -131,10 +156,11 @@ const HomePage = () => {
                 {randomWord ? randomWord.russian : ""}
               </Typography>
             </CardContent>
-            
           </Card>
+
+          {/* Кнопка "Не знаю слово" */}
           <Button
-            onClick={() => generateRandomWord(words)}
+            onClick={handleDontKnowWord}
             variant="contained"
             color="primary"
             sx={{
@@ -148,12 +174,13 @@ const HomePage = () => {
               },
             }}
           >
-            Сгенерировать слово
+            Не знаю слово
           </Button>
         </Box>
+        <WrongWords wrongWords={wrongWords} />
       </div>
     </ThemeProvider>
   );
 };
 
-export default HomePage;
+export default React.memo(HomePage);
