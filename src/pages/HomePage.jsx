@@ -7,6 +7,7 @@ import {
   Typography,
   Button,
   Box,
+  alpha,
 } from "@mui/material";
 import { getWords } from "../services/firebase";
 import Header from "../components/Header/Header";
@@ -74,8 +75,9 @@ const HomePage = () => {
 
   const handleDontKnowWord = () => {
     if (randomWord && !wrongWords.includes(randomWord.english)) {
-      setWrongWords((prevWords) => [...prevWords, randomWord.english]);
+      setWrongWords((prevWords) => [...prevWords, randomWord]);
     }
+
     generateRandomWord(words);
   };
 
@@ -91,11 +93,12 @@ const HomePage = () => {
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-start",
+          justifyContent: "center",
           alignItems: "center",
           height: "100vh",
-          padding: "16px",
+          width: "100vh",
           backgroundColor: "#5e5ea0",
+          overflow  : "hidden"
         }}
       >
         {/* Компонент с известными словами (сейчас только вверху) */}
@@ -134,7 +137,7 @@ const HomePage = () => {
               width: "auto",
               minWidth: 400,
               height: 250,
-              backgroundColor: theme.palette.primary.main,
+              backgroundColor: alpha(theme.palette.primary.main, 0.1),
               boxShadow: 3,
               display: "flex",
               justifyContent: "center",
@@ -151,9 +154,6 @@ const HomePage = () => {
                 sx={{ fontSize: "5rem", color: "white" }}
               >
                 {randomWord ? randomWord.english : "Загрузка..."}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {randomWord ? randomWord.russian : ""}
               </Typography>
             </CardContent>
           </Card>

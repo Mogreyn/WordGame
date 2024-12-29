@@ -25,7 +25,8 @@ const WrongWordsList = ({ wrongWords }) => {
             transition: "transform 0.3s",
           }}
         >
-          <p>{word}</p>
+          <p>{word.english}</p>
+          <p>{word.russian}</p>
         </div>
       ))}
     </div>

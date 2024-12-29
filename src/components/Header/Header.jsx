@@ -39,10 +39,14 @@ const Header = () => {
   return (
     <ThemeProvider theme={theme}>
       <Box
+        position="sticky"
+        top="0"
+        left="0"
         backgroundColor="#1976d2"
         display="flex"
-        justifyContent="space-between"
+        justifyContent="space-around"
         alignItems="center"
+        width="100%"
       >
         <img src={logo} alt="Logo" style={{ width: "50px", height: "auto" }} />
         <Typography variant="h6">
