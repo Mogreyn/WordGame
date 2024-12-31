@@ -7,12 +7,11 @@ import {
   Typography,
   Button,
   Box,
+  Grid,
   alpha,
 } from "@mui/material";
 import { getWords } from "../services/firebase";
 import Header from "../components/Header/Header";
-import CorrectWords from "../components/CorrectWords/correctWords";
-import WrongWords from "../components/WrongWords/wrongWords";
 
 const theme = createTheme({
   palette: {
@@ -21,12 +20,6 @@ const theme = createTheme({
     },
     secondary: {
       main: "#ff4081",
-    },
-    error: {
-      main: "#d32f2f",
-    },
-    success: {
-      main: "#388e3c",
     },
     background: {
       default: "#f4f4f9",
@@ -42,7 +35,6 @@ const theme = createTheme({
       fontSize: "1rem",
     },
   },
-  spacing: 8,
 });
 
 const HomePage = () => {
@@ -74,45 +66,70 @@ const HomePage = () => {
   };
 
   const handleDontKnowWord = () => {
-    if (randomWord && !wrongWords.includes(randomWord.english)) {
+    if (
+      randomWord &&
+      !wrongWords.some((word) => word.english === randomWord.english)
+    ) {
       setWrongWords((prevWords) => [...prevWords, randomWord]);
     }
-
     generateRandomWord(words);
   };
-
-  if (words.length === 0) {
-    return <div>Загрузка...</div>;
-  }
 
   return (
     <ThemeProvider theme={theme}>
       <Header />
       <div
-        className="container"
         style={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
+          justifyContent: "space-between",
           height: "100vh",
-          width: "100vh",
           backgroundColor: "#5e5ea0",
-          overflow  : "hidden"
         }}
       >
-        {/* Компонент с известными словами (сейчас только вверху) */}
-        <CorrectWords correctWords={correctWords} />
+        {/* Бокс сверху: Знаю */}
+        <Box
+          sx={{
+            width: "100%",
+            height: 150,
+            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+            padding: 2,
+            boxShadow: 3,
+            overflowX: "auto",
+            display: "flex",
+            alignItems: "center",
+            borderRadius: 4,
 
+          }}
+        >
+          <Grid container spacing={2} sx={{ justifyContent: "center" }}>
+            {correctWords.slice(-10).map((word, index) => (
+              <Grid item key={index}>
+                <Card
+                  sx={{
+                    padding: 1,
+                    backgroundColor: alpha(theme.palette.success.main, 0.2),
+                    boxShadow: 1,
+                    minWidth: 100,
+                  }}
+                >
+                  <Typography variant="body2">{word}</Typography>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+
+        {/* Центральный контент */}
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
+            flexGrow: 1,
           }}
         >
-          {/* Кнопка "Знаю слово" */}
           <Button
             onClick={handleKnowWord}
             variant="contained"
@@ -120,8 +137,6 @@ const HomePage = () => {
             sx={{
               marginBottom: 2,
               padding: "8px 16px",
-              backgroundColor: "#ff4081",
-              color: "white",
               borderRadius: 4,
               "&:hover": {
                 backgroundColor: "#4e494a",
@@ -131,7 +146,6 @@ const HomePage = () => {
             Знаю слово
           </Button>
 
-          {/* Карточка с рандомным словом */}
           <Card
             sx={{
               width: "auto",
@@ -158,7 +172,6 @@ const HomePage = () => {
             </CardContent>
           </Card>
 
-          {/* Кнопка "Не знаю слово" */}
           <Button
             onClick={handleDontKnowWord}
             variant="contained"
@@ -166,8 +179,6 @@ const HomePage = () => {
             sx={{
               marginTop: 2,
               padding: "8px 16px",
-              backgroundColor: "#ff4081",
-              color: "white",
               borderRadius: 4,
               "&:hover": {
                 backgroundColor: "#4e494a",
@@ -177,7 +188,45 @@ const HomePage = () => {
             Не знаю слово
           </Button>
         </Box>
-        <WrongWords wrongWords={wrongWords} />
+
+        {/* Бокс снизу: Не знаю */}
+        <Box
+          sx={{
+            width: "100%",
+            height: 150,
+            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+            padding: 2,
+            boxShadow: 3,
+            overflowX: "auto",
+            display: "flex",
+            alignItems: "center",
+            textAlign: "center",
+            borderRadius: 4,
+
+          }}
+        >
+          <Grid container spacing={2} sx={{ justifyContent: "center" }}>
+            {wrongWords.slice(-10).map((word, index) => (
+              <Grid item key={index}>
+                <Card
+                  sx={{
+                    padding: 1,
+                    backgroundColor: alpha(theme.palette.error.main, 0.2),
+                    boxShadow: 1,
+                    minWidth: 100,
+                  }}
+                >
+                  <CardContent>
+                    <Typography variant="body2" sx={{ fontWeight: "bold" }}>
+                      {word.english}
+                    </Typography>
+                    <Typography variant="body2">{word.russian}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
       </div>
     </ThemeProvider>
   );
