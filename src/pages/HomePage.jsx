@@ -9,8 +9,9 @@ import {
   Box,
   Grid,
   alpha,
+  Snackbar,
 } from "@mui/material";
-import { getWords } from "../services/firebase";
+import { getWords, saveToDatabase } from "../services/firebase";
 import Header from "../components/Header/Header";
 
 const theme = createTheme({
@@ -42,6 +43,10 @@ const HomePage = () => {
   const [randomWord, setRandomWord] = useState(null);
   const [correctWords, setCorrectWords] = useState([]);
   const [wrongWords, setWrongWords] = useState([]);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [wrongCount, setWrongCount] = useState(0);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const fetchWords = async () => {
@@ -53,19 +58,42 @@ const HomePage = () => {
     fetchWords();
   }, []);
 
+  useEffect(() => {
+    const saveStatistics = async () => {
+      try {
+        const stats = {
+          correct: correctCount,
+          wrong: wrongCount,
+        };
+        await saveToDatabase(stats);
+        localStorage.setItem("stats", JSON.stringify(stats));
+
+        // Уведомление об успешном сохранении статистики
+        setMessage("Статистика успешно сохранена!");
+        setOpenSnackbar(true);
+      } catch (error) {
+        setMessage("Ошибка при сохранении статистики");
+        setOpenSnackbar(true);
+      }
+    };
+    saveStatistics();
+  }, [correctCount, wrongCount]);
+
   const generateRandomWord = (wordsList) => {
     const randomIndex = Math.floor(Math.random() * wordsList.length);
     setRandomWord(wordsList[randomIndex]);
   };
 
-
-const handleKnowWord=()=>{
-  if(randomWord){
-    setWrongWords((prevWords)=>prevWords.filter((word)=>word.english!==randomWord.english))
-  };
-  if(!correctWords.includes(randomWord.english)){
-    setCorrectWords((prevWords)=>[...prevWords,randomWord.english])
-  };
+  const handleKnowWord = () => {
+    if (randomWord) {
+      setWrongWords((prevWords) =>
+        prevWords.filter((word) => word.english !== randomWord.english)
+      );
+    }
+    if (!correctWords.includes(randomWord.english)) {
+      setCorrectWords((prevWords) => [...prevWords, randomWord.english]);
+      setCorrectCount((prevCount) => prevCount + 1);
+    }
     generateRandomWord(words);
   };
 
@@ -75,8 +103,13 @@ const handleKnowWord=()=>{
       !wrongWords.some((word) => word.english === randomWord.english)
     ) {
       setWrongWords((prevWords) => [...prevWords, randomWord]);
+      setWrongCount((prevCount) => prevCount + 1);
     }
     generateRandomWord(words);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -91,6 +124,25 @@ const handleKnowWord=()=>{
           backgroundColor: "#5e5ea0",
         }}
       >
+        {/* Счетчики */}
+        <Box
+          sx={{
+            width: "300px", // Фиксированная ширина
+            padding: 2,
+            backgroundColor: alpha(theme.palette.primary.main, 0.1),
+            boxShadow: 3,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderRadius: 4,
+            marginBottom: 2, // Расстояние от других элементов
+            marginX: "auto", // Центрируем по горизонтали
+          }}
+        >
+          <Typography variant="h6">Правильных: {correctCount}</Typography>
+          <Typography variant="h6">Неправильных: {wrongCount}</Typography>
+        </Box>
+
         {/* Бокс сверху: Знаю */}
         <Box
           sx={{
@@ -230,6 +282,14 @@ const handleKnowWord=()=>{
           </Grid>
         </Box>
       </div>
+
+      {/* Snackbar для отображения сообщений */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={3000} // Продолжительность отображения
+        message={message}
+        onClose={handleCloseSnackbar}
+      />
     </ThemeProvider>
   );
 };
