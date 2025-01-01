@@ -58,10 +58,14 @@ const HomePage = () => {
     setRandomWord(wordsList[randomIndex]);
   };
 
-  const handleKnowWord = () => {
-    if (randomWord && !correctWords.includes(randomWord.english)) {
-      setCorrectWords((prevWords) => [...prevWords, randomWord.english]);
-    }
+
+const handleKnowWord=()=>{
+  if(randomWord){
+    setWrongWords((prevWords)=>prevWords.filter((word)=>word.english!==randomWord.english))
+  };
+  if(!correctWords.includes(randomWord.english)){
+    setCorrectWords((prevWords)=>[...prevWords,randomWord.english])
+  };
     generateRandomWord(words);
   };
 
@@ -99,7 +103,6 @@ const HomePage = () => {
             display: "flex",
             alignItems: "center",
             borderRadius: 4,
-
           }}
         >
           <Grid container spacing={2} sx={{ justifyContent: "center" }}>
@@ -202,7 +205,6 @@ const HomePage = () => {
             alignItems: "center",
             textAlign: "center",
             borderRadius: 4,
-
           }}
         >
           <Grid container spacing={2} sx={{ justifyContent: "center" }}>
