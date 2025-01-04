@@ -1,11 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-} from "firebase/firestore";
+import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAg-tIQkIvAeoWYmy2C79KO5jLVvB2aiDE",
@@ -42,4 +37,4 @@ export const saveToDatabase = async (stats) => {
   } catch (error) {
     console.error("Ошибка при сохранении статистики: ", error);
   }
-}
+};

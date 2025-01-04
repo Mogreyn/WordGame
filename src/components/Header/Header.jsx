@@ -60,7 +60,13 @@ const Header = () => {
         <FocusLock>
           <DialogTitle>{userName ? "Logout" : "Вход/Регистрация"}</DialogTitle>
           <DialogContent>
-            <AuthPage setUserName={setUserName} onClose={handleCloseAuth} />
+            <AuthPage
+              onClose={handleCloseAuth}
+              onUserLogin={(userName) => {
+                console.log("Пользователь вошёл:", userName);
+                setUserName(userName);
+              }}
+            />
           </DialogContent>
         </FocusLock>
       </Dialog>

@@ -40,12 +40,12 @@ function AuthPage({ onClose, onUserLogin }) {
         })
           .then(() => {
             console.log("Имя пользователя обновлено");
+            onUserLogin(name);
           })
           .catch((error) => {
             console.error("Ошибка при обновлении имени пользователя:", error);
           });
 
-        onUserLogin(name);
         setEmail("");
         setPassword("");
         setName("");
@@ -72,7 +72,10 @@ function AuthPage({ onClose, onUserLogin }) {
       .then((userCredential) => {
         console.log("Вход выполнен:", userCredential);
         const user = userCredential.user;
-        onUserLogin(user.displayName);
+
+        const userName = user.displayName || user.email;
+
+        onUserLogin(userName);
         setEmail("");
         setPassword("");
         setError("");
@@ -88,7 +91,7 @@ function AuthPage({ onClose, onUserLogin }) {
             setError("Неверный пароль.");
             break;
           case "auth/invalid-email":
-            setError("Некорректный формат email .");
+            setError("Некорректный формат email.");
             break;
           case "auth/invalid-credential":
             setError("Ошибка входа: неверные учетные данные.");
